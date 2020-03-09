@@ -1,0 +1,19 @@
+
+<html>
+    <head>
+        <title>OAuth VK</title>
+    </head>
+    <body>
+        <h1>OAuth VK</h1>
+        {% for message in get_flashed_messages() %}
+            <p><b>Error</b>: {{ message }}</p>
+        {% endfor %}
+        {% if current_user.is_authenticated %}
+            <h2>Hi, {{ current_user.email }}!</h2>
+            <h3>Your friends count: {{ current_user.friends_count }}</h3>
+            <p><a href="{{ url_for('logout') }}">Logout</a></p>
+        {% else %}
+            <p><a href="{{ url_for('authorize') }}">Login with Vk</a></p>
+        {% endif %}
+    </body>
+</html>
