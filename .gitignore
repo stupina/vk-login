@@ -93,7 +93,7 @@ ipython_config.py
 
 # PEP 582; used by e.g. github.com/David-OConnor/pyflow
 __pypackages__/
-
+env_file
 # Celery stuff
 celerybeat-schedule
 celerybeat.pid
@@ -104,6 +104,7 @@ celerybeat.pid
 # Environments
 .env
 .venv
+env_file
 env/
 venv/
 ENV/
