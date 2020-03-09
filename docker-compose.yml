@@ -1,0 +1,23 @@
+version: '3.5'
+
+services:
+
+  db:
+    image: mongo:latest
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongodbdata:/data/db
+
+  app:
+    build: ./app
+    env_file:
+      - env_file
+    depends_on:
+      - db
+    ports:
+      - '5000:5000'
+
+volumes:
+  mongodbdata:
+    driver: local
