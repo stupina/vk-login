@@ -20,7 +20,7 @@ class VkSignIn(object):
             client_secret=self.consumer_secret,
             authorize_url='https://oauth.vk.com/authorize',
             access_token_url='https://oauth.vk.com/access_token',
-            base_url='https://api.vk.com/method/friends.get'
+            base_url='https://api.vk.com/method/'
         )
 
     def authorize(self):
@@ -53,17 +53,27 @@ class VkSignIn(object):
         email = params.get('email')
         token = params.get('access_token')
         version = '5.103'
-        data = '?user_id={}&access_token={}&fields={}&v={}'.format(
+        photo_name = 'photo_200_orig'
+        user_data = 'users.get?user_ids={}&fields={}&access_token={}&v={}'.format(
             uid,
+            photo_name,
             token,
-            'nickname',
             version,
         )
-        url = self.service.base_url + data
+        url = self.service.base_url + user_data
+        result = oauth_session.get(url=url).json()
+        response = result.get('response')[0]
+        image_url = response.get(photo_name)
+        friends_data = 'friends.get?user_id={}&access_token={}&v={}'.format(
+            uid,
+            token,
+            version,
+        )
+        url = self.service.base_url + friends_data
         result = oauth_session.get(url=url).json()
         response = result.get('response')
         friends_count = response.get('count')
-        return (uid, email, friends_count)
+        return (uid, email, image_url, friends_count)
 
     def get_callback_url(self):
         result = url_for(
