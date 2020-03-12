@@ -9,9 +9,9 @@
             <p><b>Error</b>: {{ message }}</p>
         {% endfor %}
         {% if current_user.is_authenticated %}
-            <h2>Hi, {{ current_user.email }}!</h2>
-            <img src="{{ current_user.image_url }}">
-            <h3>Your friends count: {{ current_user.friends_count }}</h3>
+            <h2>Hi, {{ session.get('name') }}!</h2>
+            <img src="{{ session.get('image_url') }}">
+            <h3>Your friends count: {{ session.get('friends_count') }}</h3>
             <p><a href="{{ url_for('logout') }}">Logout</a></p>
         {% else %}
             <p><a href="{{ url_for('authorize') }}">Login with Vk</a></p>

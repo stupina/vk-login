@@ -25,7 +25,7 @@ class VkSignIn(object):
 
     def authorize(self):
         url = self.service.get_authorize_url(
-            scope='email',
+            scope='friends,photos',
             response_type='code',
             redirect_uri=self.get_callback_url(),
         )
@@ -50,7 +50,6 @@ class VkSignIn(object):
         )
         params = oauth_session.access_token_response.json()
         uid = params.get('user_id')
-        email = params.get('email')
         token = params.get('access_token')
         version = '5.103'
         photo_name = 'photo_200_orig'
@@ -64,6 +63,7 @@ class VkSignIn(object):
         result = oauth_session.get(url=url).json()
         response = result.get('response')[0]
         image_url = response.get(photo_name)
+        name = response.get('first_name')
         friends_data = 'friends.get?user_id={}&access_token={}&v={}'.format(
             uid,
             token,
@@ -73,7 +73,7 @@ class VkSignIn(object):
         result = oauth_session.get(url=url).json()
         response = result.get('response')
         friends_count = response.get('count')
-        return (uid, email, image_url, friends_count)
+        return (uid, name, image_url, friends_count)
 
     def get_callback_url(self):
         result = url_for(
