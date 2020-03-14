@@ -22,10 +22,11 @@ class VkSignIn(object):
             access_token_url='https://oauth.vk.com/access_token',
             base_url='https://api.vk.com/method/'
         )
+        self.oauth_session = None
 
     def authorize(self):
         url = self.service.get_authorize_url(
-            scope='friends,photos',
+            scope='friends',
             response_type='code',
             redirect_uri=self.get_callback_url(),
         )
