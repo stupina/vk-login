@@ -11,7 +11,10 @@
         {% if current_user.is_authenticated %}
             <h2>Hi, {{ session.get('name') }}!</h2>
             <img src="{{ session.get('image_url') }}">
-            <h3>Your friends count: {{ session.get('friends_count') }}</h3>
+            <h3>Your friends:</h3>
+            {% for friend in session.get('friends') %}
+                <p>{{ friend.get('first_name') }} {{ friend.get('last_name') }}</p>
+            {% endfor %}
             <p><a href="{{ url_for('logout') }}">Logout</a></p>
         {% else %}
             <p><a href="{{ url_for('authorize') }}">Login with Vk</a></p>

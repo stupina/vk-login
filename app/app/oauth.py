@@ -65,16 +65,18 @@ class VkSignIn(object):
         response = result.get('response')[0]
         image_url = response.get(photo_name)
         name = response.get('first_name')
-        friends_data = 'friends.get?user_id={}&access_token={}&v={}'.format(
+        friends_data = 'friends.get?user_id={}&count={}&access_token={}&fields={}&v={}'.format(
             uid,
+            5,
             token,
+            'nickname',
             version,
         )
         url = self.service.base_url + friends_data
         result = oauth_session.get(url=url).json()
         response = result.get('response')
-        friends_count = response.get('count')
-        return (uid, name, image_url, friends_count)
+        friends = response.get('items')
+        return (uid, name, image_url, friends)
 
     def get_callback_url(self):
         result = url_for(

@@ -31,7 +31,7 @@ def oauth_callback():
     if not current_user.is_anonymous:
         return redirect(url_for('index'))
     oauth = VkSignIn()
-    social_id, name, image_url, friends_count = oauth.callback()
+    social_id, name, image_url, friends = oauth.callback()
     if social_id is None:
         flash('Authentication failed.')
         return redirect(url_for('index'))
@@ -43,7 +43,7 @@ def oauth_callback():
     login_user(user, True)
     values = {
         'name': name,
-        'friends_count': friends_count,
+        'friends': friends,
         'image_url': image_url,
     }
     session.update(values)
